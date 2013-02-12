@@ -42,7 +42,8 @@ PipelineFactory.prototype.attach = function (options) {
                     app.plugins.metrics.increment('pipeline-error-' + pl.name);
                 }
 
-                logger.error(err);
+                logger.error(err instanceof Error ? err.stack : err);
+
                 if (res) {
                     var step = pl.steps.length < pl.currentStep ? pl.steps[pl.currentStep] : pl.steps[pl.steps.length - 1],
                         formattedError = {
