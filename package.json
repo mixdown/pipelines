@@ -1,6 +1,6 @@
 {
   "name": "mixdown-pipelines",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "main": "index",
   "description": "General use pipelines for mixdown.",
   "keywords": [

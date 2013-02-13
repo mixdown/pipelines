@@ -42,7 +42,9 @@ PipelineFactory.prototype.attach = function (options) {
                     app.plugins.metrics.increment('pipeline-error-' + pl.name);
                 }
 
-                logger.error(err);
+                // log the error
+                logger.error(err instanceof Error ? err.stack : err);
+
                 if (res) {
                     var step = pl.steps.length < pl.currentStep ? pl.steps[pl.currentStep] : pl.steps[pl.steps.length - 1],
                         formattedError = {
@@ -51,14 +53,16 @@ PipelineFactory.prototype.attach = function (options) {
                             requestId: pl.results.length > 1 ? pl.results[1].requestId : null,
                             inner: err || {}
                         };
-
                     if (err instanceof Error) {
                         formattedError.message += (err.stack || '');
+
+                        // set any other properties
+                        _.defaults(formattedError, err);
                     }
                     else if (typeof(err) == 'string') {
                         formattedError.message += err;
                     }
-                    else if (err) {
+                    else {
                         formattedError.message += JSON.stringify(err);
                     }
 
