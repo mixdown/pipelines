@@ -32,7 +32,7 @@ PipelineFactory.prototype.attach = function (options) {
         // set timeout for all pipelines.
         pl.timeout = options.timeout;
 
-        pl.on('error', function(err, results) {
+        pl.on('end', function(err, results) {
             var res = results[0] ? results[0].res : null;
 
             if (err) {
